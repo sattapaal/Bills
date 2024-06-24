@@ -1,0 +1,22 @@
+﻿@model BillStages
+
+<div>
+    <h4>BillStages</h4>
+    <hr />
+    @Html.Partial("BillStage", Model.items)
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.totalResults)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.totalResults)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.itemsPerPage)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.itemsPerPage)
+        </dd>
+    </dl>
+</div>
+

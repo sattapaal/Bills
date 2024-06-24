@@ -1,0 +1,23 @@
+﻿@using Bills.Models
+@model IEnumerable<Sponsor>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Sponsors
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.Partial("Member", item.member)
+                @Html.DisplayFor(modelItem => item.sortOrder)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

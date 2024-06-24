@@ -1,0 +1,74 @@
+﻿@using Bills.Models
+@model BillDetails
+
+<div>
+    <h4>BillDetails</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.longTitle)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.longTitle)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.billId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.billId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.shortTitle)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.shortTitle)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.currentHouse)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.currentHouse)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.originatingHouse)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.originatingHouse)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.lastUpdate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.lastUpdate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.isDefeated)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.isDefeated)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.billTypeId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.billTypeId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.introducedSessionId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.introducedSessionId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.isAct)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.isAct)
+        </dd>
+    </dl>
+</div>
+@Html.Partial("Sponsors",Model.sponsors)
+
+<div>
+    @Html.Partial("CurrentStage", Model.currentStage)
+</div>

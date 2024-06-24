@@ -1,0 +1,36 @@
+﻿@model SearchBillAmendmentsViewModel
+
+@{
+
+}
+
+<h1>Search Bills for Specific Amendments</h1>
+<p>Stages may return no amendments if that stage does not exist. Leave blank to get all</p>
+<p>Decision may return no amendments if that stage does not exist. Leave blank to get all</p>
+<p>Amendment number is the amendment/new clause number</p>
+<p>Search term amendments and member amendments exist but not implemented. MembersAPI integration? </p>
+
+@using(Html.BeginForm("SearchBillAmendments","Bills",FormMethod.Post))
+{
+    <label> Select Bill
+    @Html.Partial("BillsList",Model.Bills)
+    </label>
+    <label>Select Stage
+    @Html.Partial("StagesList",Model.Stages)
+    </label>
+    <label>
+        Decision
+        @Html.Partial("DecisionList", Model.Decisions)
+    </label>
+    <label>
+        Amendment Name/Number
+        <input type ="text" name="amendmentName" id="amendmentName" />
+    </label>
+    <label>
+        <input type="submit" value="submit" name="submit" />
+    </label>
+
+}
+<style>
+    label {display:block; width: 100%;}
+</style>

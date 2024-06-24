@@ -1,0 +1,153 @@
+﻿@using Bills.Models
+@using Microsoft.AspNetCore.Http;
+@model List<Amendment>
+@{
+    var NoDecision = 0;
+    var Agreed = 0;
+    var NotCalled = 0;
+    var NotMoved = 0;
+    var Withdrawn = 0;
+    var NegativedOnDivision = 0;
+    var NotSelected = 0;
+    var Misc = 0;
+
+    var billId = Context.Request.Query["billId"].ToString();
+}
+    <h1>The number of amendments for this bill is @Model.Count</h1>
+<a href="#bot" id="#top" name="#top" title="#top">See results</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                amendmentId
+            </th>
+            <th>
+                amendmentType
+            </th>
+            <th>Amendment Summary</th>
+            <th>
+                clause
+            </th>
+            <!--
+            <th>
+                pageNumber
+            </th>
+            <th>
+                lineNumber
+            </th>
+            <th>
+                amendmentPosition
+            </th>
+            -->
+            <th>
+                marshalledListText
+            </th>
+            <!--<th>
+                id
+            </th>-->
+            <th>
+                billStageId
+            </th>
+            <th>
+                decision
+            </th>
+            <th>
+                decisionExplanation
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @* @Html.DisplayFor(modelItem => item.amendmentId) *@
+                    @Html.ActionLink(item.amendmentId.ToString(), "GetAmendmentDetails", "Bills", new { billId = billId, stageId = item.billStageId, amendmentId = item.amendmentId }, new { @title = "Get Further Info" })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.amendmentType)
+            </td>
+            <td>
+                    @foreach(var summaryText in item.summaryText)
+                    {
+                        <p>@Html.Raw(summaryText)</p>
+                    }
+                </td>
+            <!--<td>
+                @Html.DisplayFor(modelItem => item.clause)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.pageNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.lineNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.amendmentPosition)
+            </td>-->
+            <td>
+                @Html.DisplayFor(modelItem => item.marshalledListText)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.id)
+            </td>
+            <!--<td>
+                @Html.DisplayFor(modelItem => item.billId)
+            </td>-->
+            <td>
+                @Html.DisplayFor(modelItem => item.billStageId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.decision)
+                @if(item.decision == "")
+                {
+                        Misc++;
+                }
+                    @if (item.decision == "NoDecision")
+                    {
+                        NoDecision++;
+                    }
+                    @if (item.decision == "Agreed")
+                    {
+                        Agreed++;
+                    }
+                    @if (item.decision == "NotCalled")
+                    {
+                        NotCalled++;
+                    }
+                    @if (item.decision == "NotMoved")
+                    {
+                        NotMoved++;
+                    }
+                    @if (item.decision == "Withdrawn")
+                    {
+                        Withdrawn++;
+                    }
+                    @if (item.decision == "NegativedOnDivision")
+                    {
+                        NegativedOnDivision++;
+                    }
+                    @if (item.decision == "NotSelected")
+                    {
+                        NotSelected++;
+                    }
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.decisionExplanation)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<a href="#top" id="#bot" name="#bot" title="#bot">Go to top</a>
+<h1>
+    Results:
+</h1>
+<p>NoDecision @NoDecision</p>
+<p>Agreed @Agreed</p>
+<p>NotCalled @NotCalled </p>
+<p>NotMoved @NotMoved</p>
+<p>Withdrawn @Withdrawn</p>
+<p>NegativedOnDivision @NegativedOnDivision</p>
+<p>NotSelected @NotSelected</p>
+<p>Misc @Misc</p>

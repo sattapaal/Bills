@@ -1,0 +1,25 @@
+﻿@model BillPublication
+@{
+    var fileCount = 0;
+}
+<div>
+    <h4>BillPublication</h4>
+
+    @foreach(var doc in Model.publications.OrderByDescending(x=> x.displayDate))
+    {
+        fileCount++;
+        <span>@fileCount</span>
+        <p>@doc.title - @doc.publicationType.name  - @doc.house</p>
+        @foreach(var link in doc.links)
+        {
+            <a href="@link.url" title="@link.id - @link.title">@link.title - @link.contentType</a>
+            <p>Displayed on @doc.displayDate</p>
+        }
+        @foreach(var file in doc.files)
+        {
+            <p>File : @file.filename</p>
+        }
+        <hr />
+    }
+</div>
+

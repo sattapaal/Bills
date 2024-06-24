@@ -1,0 +1,68 @@
+﻿@model IEnumerable<Amendment>
+
+@{
+
+}
+<h1>Number of amendments for bill: @Model.Count()</h1>
+<table>
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.amendmentId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.amendmentType)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.amendmentPosition)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.marshalledListText)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.decision)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.decisionExplanation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.stageName)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.amendmentId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.amendmentType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.amendmentPosition)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.marshalledListText)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.decision)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.decisionExplanation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.stageName)
+            </td>
+
+        </tr>
+}
+    </tbody>
+</table>

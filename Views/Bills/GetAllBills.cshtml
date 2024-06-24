@@ -1,0 +1,133 @@
+﻿@using Bills.Models
+@model Bills
+@{
+    var queryString = Context.Request.Query["skip"];
+    var skip = 0;
+    if(!string.IsNullOrEmpty(queryString))
+    {
+        skip = int.Parse(queryString);
+    }
+    var billCount = skip;
+
+    var billSession = GetBillSession();
+
+}
+
+<p>Showing bills for @billSession</p>
+<table width="100%">
+    <tr>
+        <td>#</td>
+        <td>Bill Name/Number</td>
+        <td>Stages</td>
+        <td>Amendments</td>
+        <td>Publications</td>
+    </tr>
+
+@foreach(var bill in Model.items)
+{
+    billCount++;
+        <tr>
+            <td>
+                @(billCount)
+            </td>
+            <td>
+            @{
+                var description = bill.shortTitle + " ("+ bill.billId + ")";
+                }
+                @Html.ActionLink(description, "GetBillDetails", "Bills",new { billId = bill.billId })
+            </td>
+            <td>
+                @Html.ActionLink("Get Stages", "GetBillStages", "Bills", new { billId = bill.billId })
+            </td>
+            <td>
+                @Html.ActionLink("Get Amendments", "GetBillAmendments", "Bills", new { billId = bill.billId })
+            </td>
+            <td>
+                @Html.ActionLink("Publications", "GetBillPublication", "Bills", new { billId = bill.billId })
+            </td>
+        </tr>
+}
+</table>
+<p>Showing (@billCount / @Model.totalResults )</p>
+<div class="pagination">
+    <a class='linkBlock @(CurrentPage(0) ? "active": "")' href="?session=@GetBillSession()">Page 1</a>
+@Html.Raw(GetPagination("",Model.itemsPerPage,Model.totalResults))
+</div>
+
+
+@using (Html.BeginForm("GetAllBills", "Bills", FormMethod.Post))
+{
+    <h1>Get Other Data</h1>
+    @Html.TextBox("session", billSession)
+    <input type="submit" name="submit" value="submit" id="submit" />
+}
+
+@functions
+{
+    public string GetPagination(string existingHtml, int numberShown=0, int maxNumber=0, int page=0)
+    {
+
+        var html = "";
+
+
+        if(maxNumber> (numberShown*page))
+        {
+            page++;
+            var skip = (page * numberShown);
+            if(skip < maxNumber)
+            {
+                html = html + GenerateHtml(numberShown, skip,  page) + GetPagination(html, numberShown, maxNumber, page);
+            }
+        }
+        else
+        {
+            //html = GenerateHtml(numberShown, maxNumber, page);
+        }
+
+
+        return html; 
+    }
+    public string GenerateHtml(int take, int skip, int page)
+    {
+
+        var linkHtml = string.Format("<a class='linkBlock {5}' href='?take={0}&skip={1}&page={2}&session={3}'> Page {4} </a>", take, skip, page, GetBillSession(), (page + 1), CurrentPage(page)? "active" : "");
+
+        return linkHtml;
+    }
+
+    public int GetBillSession()
+    {
+        int billSession = 38;
+        if (TempData["session"] != null)
+        {
+            billSession = int.Parse(TempData["session"].ToString());
+        }
+        return billSession;
+
+    }
+
+    public bool CurrentPage(int pageNumber)
+    {
+        var currentPage = 0;
+        if (!string.IsNullOrEmpty(Context.Request.Query["page"]))
+        {
+            currentPage = int.Parse(Context.Request.Query["page"].ToString());
+        }
+        if(pageNumber==currentPage)
+        {
+            return true;
+        }
+        else
+        { return false; }
+    }
+}
+
+<style>
+    a.linkBlock {
+        width: 100px;
+    }
+
+    .linkBlock:hover { color:lightpink; text-decoration:none; }
+    .pagination { display: flex;}
+    .active {color: black; text-decoration: none;}
+    </style>

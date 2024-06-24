@@ -1,0 +1,37 @@
+﻿@{
+
+}
+<h1>Search Bill Amendments and Stats</h1>
+
+@using (Html.BeginForm("GetBillsAndAmendments", "Report", FormMethod.Post))
+{
+    <label class="labelRow">
+        Search:
+        <input type="text" name="searchTerm" placeholder="search term" />
+    </label>
+    <label class="labelRow">
+        Session
+        @Html.Partial("/Views/Partials/SessionsDropDown.cshtml")
+    </label>
+    <label class="labelRow">
+        Number of bills
+    <input type="number" name="take" value="50" />
+    </label>
+    <p>include totals</p>
+    <label>
+        Yes <input type="radio" value="false" name="omitTotals" checked="checked" />
+    </label>
+    <label>
+        No <input type="radio" value="true" name="omitTotals" />
+    </label>
+    <label class="labelRow">
+        As
+        <label>HTML<input type="radio" name="asJson" value="false" checked="checked" /></label>
+        <label>JSON<input type="radio" value="true" name="asJson" /></label>
+    </label>
+    <input type="submit" name="submit" value="submit" />
+}
+
+<style>
+    label.labelRow {display: block; width: 100%;}
+</style>

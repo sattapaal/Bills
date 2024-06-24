@@ -1,0 +1,95 @@
+﻿@model IEnumerable<BillSummary>
+@{
+    int billCount = 0;
+}
+
+<p>Started : @TempData["startTime"]</p>
+<p>Finished: @TempData["endTime"]</p>
+
+<table class="table">
+    <tr>
+        <th>#</th>
+        <th>Bill</th>
+        <th>Stage</th>
+        <th>NoDecision</th>
+        <th>Agreed</th>
+        <th>NotCalled</th>
+        <th>NotMoved</th>
+        <th>Withdrawn</th>
+        <th>NegativedOnDivision</th>
+        <th>NotSelected</th>
+        <th>StageTotal</th>
+    </tr>
+
+@foreach (var item in Model) {
+        var BillName = item.Name + "(" + item.BillId + ")";
+        billCount++;
+        if (item.AmendmentsByStage != null && item.AmendmentsByStage.Any())
+        {
+            foreach (var stage in item.AmendmentsByStage)
+            {
+                <tr>
+                    <td title="1">@billCount</td>
+                    <td title="2">@BillName</td>
+                    <td title="3">@GetStageName(stage.Stage)</td>
+                    <td title="4"><a href="/Bills/SearchBillAmendments?billId=@item.BillId&stageId=@GetStageNumber(stage.Stage)&Decision=NoDecision"> @stage.NoDecision </a></td>
+                    <td title="5"><a href="/Bills/SearchBillAmendments?billId=@item.BillId&stageId=@GetStageNumber(stage.Stage)&Decision=Agreed"> @stage.Agreed </a></td>
+                    <td title="6"><a href="/Bills/SearchBillAmendments?billId=@item.BillId&stageId=@GetStageNumber(stage.Stage)&Decision=NotCalled"> @stage.NotCalled </a></td>
+                    <td title="7"><a href="/Bills/SearchBillAmendments?billId=@item.BillId&stageId=@GetStageNumber(stage.Stage)&Decision=NotMoved"> @stage.NotMoved </a></td>
+                    <td title="8"><a href="/Bills/SearchBillAmendments?billId=@item.BillId&stageId=@GetStageNumber(stage.Stage)&Decision=Withdrawn"> @stage.Withdrawn </a></td>
+                    <td title="9"><a href="/Bills/SearchBillAmendments?billId=@item.BillId&stageId=@GetStageNumber(stage.Stage)&Decision=NegativedOnDivision"> @stage.NegativedOnDivision </a></td>
+                    <td title="10"><a href="/Bills/SearchBillAmendments?billId=@item.BillId&stageId=@GetStageNumber(stage.Stage)&Decision=NotSelected"> @stage.NotSelected </a></td>
+                    <td>@{
+                            int stageTotal = stage.NotSelected
+                                                        + stage.Withdrawn
+                                                            + stage.NegativedOnDivision
+                                                                + stage.Agreed
+                                                                    + stage.NoDecision
+                                                                        + stage.NotCalled
+                                                                            + stage.NotMoved;
+
+                    }
+                    @stageTotal
+                    </td>
+                </tr>
+            }
+        }
+        if(item.AmendmentCount != null)
+        {
+            <tr>
+                <td>@billCount</td>
+                <td style="background-color:gainsboro;">@BillName</td>
+                <td style="background-color:gainsboro;">@item.AmendmentCount.Stage (@item.AmendmentCount.AmendmentTotal)</td>
+                <td style="background-color:gainsboro;">@item.AmendmentCount.NoDecision</td>
+                <td style="background-color:gainsboro;">@item.AmendmentCount.Agreed</td>
+                <td style="background-color:gainsboro;">@item.AmendmentCount.NotCalled</td>
+                <td style="background-color:gainsboro;">@item.AmendmentCount.NotMoved</td>
+                <td style="background-color:gainsboro;">@item.AmendmentCount.Withdrawn</td>
+                <td style="background-color:gainsboro;">@item.AmendmentCount.NegativedOnDivision</td>
+                <td style="background-color:gainsboro;">@item.AmendmentCount.NotSelected</td>
+                <td style="background-color:gainsboro;"> @item.AmendmentCount.AmendmentTotal </td>
+            </tr>
+        }
+
+}
+
+    @functions {
+        public string GetStageName(string input)
+        {
+            string output = input;
+            if(input.Contains("^"))
+            {
+                output = input.Split("^")[0];
+            }
+            return output;
+        }
+        public string GetStageNumber(string input)
+        {
+            string output = input;
+            if (input.Contains("^"))
+            {
+                output = input.Split("^")[1];
+            }
+            return output;
+        }
+}

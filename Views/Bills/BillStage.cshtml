@@ -1,0 +1,56 @@
+﻿@model IEnumerable<BillStage>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.stageId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.sessionId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.abbreviation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.house)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.sortOrder)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.stageId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.sessionId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.abbreviation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.house)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.sortOrder)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

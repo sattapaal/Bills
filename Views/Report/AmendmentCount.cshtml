@@ -1,0 +1,41 @@
+﻿@model AmendmentCount
+
+
+
+    <tr>
+        <td> - </td>
+            <td>
+            @if(Model.Stage != null)
+            {
+            <p>@Model.Stage.ToString()</p>
+            }
+            else
+            {
+                <p>TOTAL</p>
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.NoDecision)
+        </td>
+
+        <td>
+            @Html.DisplayFor(model => model.Agreed)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.NotCalled)
+        </td>
+        <td >
+            @Html.DisplayFor(model => model.NotMoved)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.Withdrawn)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.NegativedOnDivision)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.NotSelected)
+        </td>
+
+    </tr>
+

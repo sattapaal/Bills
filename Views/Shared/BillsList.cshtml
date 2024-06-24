@@ -1,0 +1,8 @@
+﻿@model Bills
+
+<select name="billId">
+@foreach (var item in Model.items.OrderBy(x=> x.shortTitle))
+{
+    <option value="@item.billId">@(item.shortTitle) - @(item.billId) - @(item.lastUpdate)</option>
+}
+</select>

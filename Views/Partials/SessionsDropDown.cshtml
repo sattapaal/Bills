@@ -1,0 +1,12 @@
+﻿@using Bills.Services
+@{
+    WhatsOnCalendarApiService service = new WhatsOnCalendarApiService();
+    var sessions = await service.GetSessionsBills();
+}
+
+<select name="session" id="session">
+    @foreach (var session in sessions)
+    {
+        <option value="@session.SessionId" text="">@(session.Number) - @(session.StartDate.ToString("dd/MM/yyyy")) - @(session.EndDate.ToString("dd/MM/yyyy"))</option>
+    }
+</select>

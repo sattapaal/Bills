@@ -1,0 +1,10 @@
+﻿@model List<Stage>
+@{
+
+}
+<select name="stageId">
+    @foreach (var item in Model.OrderBy(x => x.id).Where(X => X.house != "Unassigned"))
+    {
+        <option value ="@item.id">@item.id - @item.name - @item.house</option>
+    }
+</select>

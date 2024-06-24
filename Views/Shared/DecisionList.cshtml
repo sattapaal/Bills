@@ -1,0 +1,10 @@
+﻿@model List<string>
+@{
+
+}
+<select name="decision">
+    @foreach(var decision in Model)
+    {
+        <option value="@decision">@decision</option>
+    }
+</select>

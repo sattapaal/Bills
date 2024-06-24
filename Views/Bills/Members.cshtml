@@ -1,0 +1,66 @@
+﻿@using Bills.Models
+@model IEnumerable<Member>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.memberId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.party)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.partyColour)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.house)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.memberPhoto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.memberPage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.memberFrom)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.memberId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.party)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.partyColour)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.house)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.memberPhoto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.memberPage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.memberFrom)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
