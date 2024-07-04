@@ -1,0 +1,48 @@
+
+
+
+
+@using (Html.BeginForm("GetBusinessItems", "OrderPaper", FormMethod.Post))
+{
+    <label class="labelRow">
+        Date from
+        <input type="date" name="from" placeholder="" />
+    </label>
+    <label class="labelRow">
+        Date to
+        <input type="date" name="to" placeholder="" />
+    </label>
+    <label class="labelRow">
+        Type:
+        <select name="type">
+            <option value="">All</option>
+            <option value="effectives">Effectives</option>
+            <option value="futurea">Future A</option>
+            <option value="announcements">Announcements</option>
+        </select>
+    </label>
+    <label class="labelRow">
+        Input API 
+        <label>XML<input type="radio" name="iFormat" value="xml" /></label>
+        <label>JSON<input type="radio" name="iFormat" value="json" checked="checked" /></label>
+    </label>   
+    <label class="labelRow">
+        Output AS
+        <label>HTML<input type="radio" name="output" value="html" checked="checked" /></label>
+        <label>JSON<input type="radio" value="json" name="output" /></label>
+        <label>XML<input type="radio" value="xml" name="output" /></label>
+    </label>
+    <label class="labelRow">
+        With Date? 
+        <label>Yes<input type="radio" value = "true" name = "withDate" checked="checked" /></label>
+        <label>No<input type="radio" value = "false" name="withDate" /></label>
+    </label>
+    <input type="submit" name="submit" value="submit" />
+}
+
+<style>
+    label.labelRow {
+        display: block;
+        width: 100%;
+    }
+</style>

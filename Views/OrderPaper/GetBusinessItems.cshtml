@@ -1,0 +1,22 @@
+@model BusinessItems
+@{
+
+}
+@* @foreach(var dayI in Model.DayItems)
+{
+    @dayI.DayItemType<br />
+    @dayI.DayItemId<br />
+    @dayI.TabledOrder<br />
+    @dayI.Title<br />
+    @dayI.Notes<br />
+    @dayI.BusinessItemDetail.ItemText<br />
+} *@
+@foreach(var item in Model.Days)
+{
+    @item.Date <br />
+     <br />
+    @foreach(var sec in item.Sections)
+    {
+        @sec.Name <br />
+    }
+}
