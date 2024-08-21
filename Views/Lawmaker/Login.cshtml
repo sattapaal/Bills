@@ -1,0 +1,13 @@
+
+@using (Html.BeginForm("SubmitLoginAndConnect", "Lawmaker", FormMethod.Post))
+{
+    <label class="labelRow"> username
+    <input type="text" name= "username" value="" placeholder="username" />
+    </label>
+    <label class="labelRow"> password
+    <input type="password" name="password" value="" placeholder="password" />
+    </label>
+    <label>
+        <input type="submit" name="submit" value="submit" />
+    </label>
+}

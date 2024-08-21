@@ -1,0 +1,22 @@
+
+@using (Html.BeginForm("BillList", "Lawmaker", FormMethod.Post))
+{
+<label class="labelRow"> Type
+<select name = "type">
+
+    <option value="ukpubb">UK Parliament public Bill</option>
+    <option value="ukprib">UK private bill</option>
+    <option value="ukpga">UK Act</option>
+    <option value="sppubb">Scottish Parliament public Bill</option>
+    <option value="spprib">Scottish private bill</option>
+    <option value="asp">Scottish Act</option>
+
+</select>
+</label>
+<label class="labelRow"> Name (optional)
+<input type="text" name="filter" value="" placeholder="bill name e.g. renters" />
+</label>
+<label>
+    <input type="submit" name="submit" value="submit" />
+</label>
+}

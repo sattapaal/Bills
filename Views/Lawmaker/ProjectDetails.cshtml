@@ -1,0 +1,17 @@
+@model Lawmaker.Models.Bill
+@{
+
+}
+
+<p>@Model.title</p>
+<p>@Model.label</p>
+<p>@Model.stage</p>
+<p>@Model.publicationDate</p>
+<p>@Model.house</p>
+<p>@Model.docType</p>
+
+@foreach(Lawmaker.Models.Link link in Model._links)
+{
+    <p title="@link.manifestation" data="@link.method">@link.href</p>
+}
+
