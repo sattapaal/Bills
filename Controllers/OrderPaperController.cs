@@ -2,6 +2,7 @@ using Bills.Models;
 using Bills.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Text;
 using System.Text.Json;
 using System.Xml;
 using System.Xml.Serialization;
@@ -44,17 +45,62 @@ namespace Bills.Controllers
             }
             else if(output =="xml")
             {
+                string xmlOutput = string.Empty;
                 //check iformat
+                if (iFormat == "json")
+                {
+                    var export = JsonSerializer.Deserialize<BusinessItems>(response);
+
+                    XmlSerializer xmlSerializer = new XmlSerializer(typeof(BusinessItems));
+
+                    var sb = new StringBuilder();
+                    using var xmlWriter = XmlWriter.Create(sb);
+                    var ns = new XmlSerializerNamespaces(new[] { XmlQualifiedName.Empty });
+                    xmlSerializer.Serialize(xmlWriter, export, ns);
+                    response = sb.ToString();
+
+                }
+
                 return  this.Content(response, "text/xml");
             }
             else if(output =="json")
             {
-                //check iformat
+                if(iFormat == "xml")
+                {
+                    OrderPaper businessItems = new OrderPaper();
+                    //convertXML to Json
+                    XmlSerializer xmlSerializer = new XmlSerializer(typeof(OrderPaper));
+                    XmlReaderSettings settings = new XmlReaderSettings();
+
+                    XmlReader reader = XmlReader.Create(new StringReader(response));
+                    //businessItems = (BusinessItems)xmlSerializer.Deserialize(reader);
+
+                    //using (XmlReader reader = XmlReader.Create(new StringReader(response)))
+                    //{
+                    //    businessItems = (BusinessItems)xmlSerializer.Deserialize(reader);
+                    //}
+                    object? serializedXML = null;
+                    try
+                    {
+                         serializedXML = xmlSerializer.Deserialize(new StringReader(response.Trim()));
+                    }
+                    catch(Exception e)
+                    {
+                        serializedXML=null;
+                    }
+
+                    businessItems = (OrderPaper)serializedXML;
+
+                    response = JsonSerializer.Serialize<OrderPaper>(businessItems);
+                }
+
+
+
                 return Json(response);
             }
             else
             {
-                return View(response);
+                return View();
             }
         }
     }

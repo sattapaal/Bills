@@ -65,3 +65,11 @@
         public string Text { get; set; }
         public int SortOrder { get; set; }
     }
+
+public class OrderPaper
+{
+    public string House { get; set; }
+    public string Type { get; set; }
+    public List<Day> Days { get; set; }
+    public object DayItems { get; set; }
+}
