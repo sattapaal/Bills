@@ -1,0 +1,24 @@
+@model Lawmaker.Models.LawmakerBillList
+@{
+    int counter = 0;
+}
+<table cellpadding="5" border="1" style="border-style: solid;">
+    <tr>
+        <th>#</th>
+        <th>Project Id</th>
+        <th>Title</th>
+    </tr>
+@foreach(var billProject in Model.result)
+{
+    counter++;
+    <tr>
+        <td>@(counter)</td>
+        <td><a href="/Lawmaker/ProjectDetails?projectId=@(billProject.projectId)">@(billProject.projectId)</td>
+        <td title="@(billProject.docLabel) - @(billProject.docType) - @(billProject.chGuid)">@(billProject.title)</td>
+        <td title=""><a href="/Lawmaker/ProjectAmendments?projectId=@(billProject.projectId)">Get Amendments</a></td>
+    </tr>
+}
+
+<style>
+    tr {border-bottom: 1px; border-width: 1px;}
+</style>
