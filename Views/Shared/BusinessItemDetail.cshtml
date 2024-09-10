@@ -1,0 +1,96 @@
+@using Bills.Models.OrderPaper
+@model BusinessItemDetail 
+@{
+    
+}
+
+@if(Model != null)
+{
+
+        <span class="blocked @(isEmpty(Model.AdditionalInformation) ? "hideMe" : "")"> @Html.Raw(Model.AdditionalInformation)</span>
+        <span class="blocked @(isEmpty(Model.Notes) ? "hideMe" : "")"> @Html.Raw(Model.Notes)</span>
+        <span class="blocked @(isObjectEmpty(Model.SponsorNotes) ? "hideMe" : "")"> @Html.Raw(Model.SponsorNotes)</span>
+        <span class="blocked @(isEmpty(Model.ItemText) ? "hideMe" : "")"> @Html.Raw(Model.ItemText)</span>
+       
+        <span class="blocked @( !Model.ChildDayItems.Any() ? "hideMe" : "")" style="border: green solid 1px;">
+        @foreach(var i in Model.ChildDayItems) { 
+            @Html.Raw(i)
+        }
+        </span>
+
+        <span class="blocked @(!Model.Sponsors.Any() ? "hideMe" : "")">
+        @foreach (var s in Model.Sponsors)
+        {
+            @Html.Raw(s.LayingMinisterName) <span> - </span>
+            @Html.Raw(s.Name); <br />
+        }
+        </span>
+        <span class="blocked @(!Model.StandingOrders.Any() ? "hideMe" : "")">
+        @foreach(var so in Model.StandingOrders) { 
+            @Html.Raw(so.Text)
+         }
+         </span>
+         <span class="blocked @(!Model.Amendments.Any() ? "hideMe" : "")">
+        @foreach (var amdt in Model.Amendments) { 
+             @Html.Raw(amdt);
+             
+        }
+        </span>
+        <span class="blocked @(!Model.Links.Any() ? "hideMe" : "")">
+        @foreach (var link in Model.Links) { 
+            @Html.Raw(link);
+
+         }
+         </span>
+        <span class="blocked @(!Model.RenderedFields.Any() ? "hideMe" : "")"> 
+        @foreach (var rfield in Model.RenderedFields) { 
+            @Html.Raw(rfield);
+
+         }
+        </span>
+}
+
+<style>
+    .blocked {display: block; width 100%; clear: both; padding: 10px; border: 1px solid red;}
+    table, tr, td {border: 1px black solid;  }
+    .hideMe { display: none!important; }
+</style>
+
+@functions {
+    public bool isEmpty(string input)
+    {
+
+        if(string.IsNullOrEmpty(input) || input==string.Empty || input == " ")
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public bool isObjectEmpty(object input)
+    {
+        if(input ==null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    @*public bool isListEmpty(List<T> list)
+    {
+        if(list ==null || !list.Any())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }*@
+
+}

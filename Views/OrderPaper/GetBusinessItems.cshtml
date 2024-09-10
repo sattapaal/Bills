@@ -1,3 +1,4 @@
+@using Bills.Models.OrderPaper
 @model BusinessItems
 @{
 
@@ -17,6 +18,19 @@
      <br />
     @foreach(var sec in item.Sections)
     {
-        @sec.Name <br />
+
+        @foreach(var dayItems in sec.DayItems)
+        {
+
+                <span class="blunk">@Html.Partial("BusinessItemDetail", dayItems.BusinessItemDetail) - 
+                @Html.Raw(dayItems.Notes) -
+                @Html.Raw(dayItems.Title) </span>
+
+
+        }
     }
 }
+
+<style>
+    .blunk { padding: 10px; display: block; width: 100%; border: 1px blue solid; }
+</style>

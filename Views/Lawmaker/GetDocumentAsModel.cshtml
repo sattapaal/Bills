@@ -1,0 +1,34 @@
+@model Lawmaker.Models.XML.Amendment
+@{
+
+}
+
+    <p>
+        @(Model.AmendmentBody.AmendmentContent.Tblock.Block.Mod.Text)
+    </p>
+        <p>
+        @**(Model.AmendmentBody.AmendmentHeading.Block.DocIntroducer.Text)**@
+
+         @foreach(var block in Model.AmendmentBody.AmendmentHeading.Block)
+        {
+            if(block.Name == "proposer")
+            {
+                <p>@block.DocIntroducer.Text</p>
+            }
+
+            if(block.Name=="decision")
+            {
+                <p>@block.Ref.Text</p>
+            }
+
+        }
+
+
+    </p>
+
+        <p>@Model.Preface.Block.Name</p>
+        @if(Model.Preface.Block.Name == "title")
+        {
+            <p>@Model.Preface.Block.DocStage</p>
+        }
+    

@@ -96,7 +96,20 @@ namespace Bills.Services
             var response = await client.SendAsync(request);
             response.EnsureSuccessStatusCode();
             var responseObjects = await response.Content.ReadAsStringAsync();
-            Console.WriteLine("objects returned " + responseObjects);
+            //Console.WriteLine("objects returned " + responseObjects);
+            return responseObjects;
+        }
+
+        public async Task<string> GetDocument(string path, string authToken)
+        {
+            var client = new HttpClient();
+            var useUrl = path;
+            var request = new HttpRequestMessage(HttpMethod.Get, useUrl);
+            request.Headers.Add("X-Auth-Token", authToken);
+            var response = await client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+            var responseObjects = await response.Content.ReadAsStringAsync();
+            //Console.WriteLine("objects returned " + responseObjects);
             return responseObjects;
         }
     }

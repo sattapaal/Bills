@@ -6,6 +6,9 @@ using System.Text.Json;
 using System.Linq;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.AspNetCore.Identity;
+using System.Xml;
+using System.Xml.Serialization;
+using System.Text;
 
 
 namespace Bills.Controllers
@@ -121,7 +124,7 @@ namespace Bills.Controllers
         {
             LawmakerApiService lawmakerApiService = new LawmakerApiService();
             var results = await lawmakerApiService.GetBill(projectId, GetCurrentSession());
-            Console.WriteLine(projectId + " RESULT " + results);
+            //Console.WriteLine(projectId + " RESULT " + results);
             Lawmaker.Models.Bill bill = JsonSerializer.Deserialize<Lawmaker.Models.Bill>(results.TrimStart('[').TrimEnd(']'));
             return View(bill);
         }
@@ -129,9 +132,60 @@ namespace Bills.Controllers
         {
             LawmakerApiService lawmakerApiService = new LawmakerApiService();
             var results = await lawmakerApiService.GetBillAmendments(projectId, GetCurrentSession());
-            Console.WriteLine(projectId + " RESULT " + results);
+            //Console.WriteLine(projectId + " RESULT " + results);
             BillAmendments amendments = JsonSerializer.Deserialize<BillAmendments>(results);
             return View(amendments);
+        }
+
+        public async Task<ContentResult> GetDocument(string documentPath)
+        {
+            LawmakerApiService lawmakerApiService = new LawmakerApiService();
+            var results = await lawmakerApiService.GetDocument(documentPath, GetCurrentSession());
+            Console.WriteLine(documentPath + " RESULT " + results);
+            
+            return new ContentResult
+            {
+                Content = results,
+                ContentType = "application/xml",
+                StatusCode = 200
+            };
+        }
+
+        public async Task<IActionResult> GetDocumentAsModel(string documentPath)
+        {
+            LawmakerApiService lawmakerApiService = new LawmakerApiService();
+            var results = await lawmakerApiService.GetDocument(documentPath, GetCurrentSession());
+            //Console.WriteLine(documentPath + " RESULT " + results);
+            //Lawmaker.Models.XML.Amendment amendment = JsonSerializer.Deserialize<Lawmaker.Models.XML.Amendment>(results);
+            
+            Lawmaker.Models.XML.Amendment amendment = new Lawmaker.Models.XML.Amendment();
+
+                XmlSerializer xmlSerializer = new XmlSerializer(typeof(Lawmaker.Models.XML.Amendment));
+                //
+                using (XmlReader reader = XmlReader.Create(GenerateStreamFromString(results)))
+                {
+                    try
+                    {
+                        var deserializedResult = xmlSerializer.Deserialize(reader);
+                        amendment = (Lawmaker.Models.XML.Amendment) deserializedResult;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.Write(ex);
+                        Console.Write(results);
+                    }
+                }
+
+
+            return View(amendment);
+        }
+
+        public static MemoryStream GenerateStreamFromString(string value)
+        {
+
+            //return new MemoryStream(Encoding.Unicode.GetBytes(value ?? ""));
+            return new MemoryStream(Encoding.ASCII.GetBytes(value ?? ""));
+            //return new MemoryStream(Encoding.UTF8.GetBytes(value ?? ""));
         }
 
     }

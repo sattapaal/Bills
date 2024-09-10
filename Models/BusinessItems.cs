@@ -1,4 +1,5 @@
-// Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
+namespace Bills.Models.OrderPaper
+{
     public class BusinessItemDetail
     {
         public List<object> ChildDayItems { get; set; }
@@ -65,3 +66,4 @@
         public string Text { get; set; }
         public int SortOrder { get; set; }
     }
+}

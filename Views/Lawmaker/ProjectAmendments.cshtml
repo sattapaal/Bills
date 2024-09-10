@@ -29,6 +29,9 @@
             @foreach(var link in amendment._links)
             {
                 <p title="@link.manifestation" data="@link.method">@link.href</p>
+                @*Url.Action("GetDocument", "Lawmaker", new { path = link.href })*@
+                <a asp-controller="Lawmaker" asp-action="GetDocument" asp-route-documentpath="@link.href">GetDocument</a>
+                <a asp-controller="Lawmaker" asp-action="GetDocumentAsModel" asp-route-documentpath="@link.href">GetDocumentAsModel</a>
             }
         </td>
     </tr>
