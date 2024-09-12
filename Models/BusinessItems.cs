@@ -20,6 +20,16 @@ namespace Bills.Models.OrderPaper
         public string AnsweringBodyName { get; set; }
     }
 
+    public class ChildDayItems
+    {
+        public string DayItemType { get; set; }
+        public int DayItemId { get; set; }
+        public int TabledOrder { get; set; }
+        public string Title { get; set; }
+        public object Notes { get; set; }
+        public BusinessItemDetail BusinessItemDetail { get; set; }
+    }
+
     public class Day
     {
         public DateTime Date { get; set; }
@@ -65,5 +75,12 @@ namespace Bills.Models.OrderPaper
     {
         public string Text { get; set; }
         public int SortOrder { get; set; }
+    }
+    public class OrderPaper
+    {
+        public string House { get; set; }
+        public string Type { get; set; }
+        public List<Day> Days { get; set; }
+        public object DayItems { get; set; }
     }
 }
