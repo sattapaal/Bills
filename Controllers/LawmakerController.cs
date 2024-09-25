@@ -125,7 +125,7 @@ namespace Bills.Controllers
             LawmakerApiService lawmakerApiService = new LawmakerApiService();
             var results = await lawmakerApiService.GetBill(projectId, GetCurrentSession());
             //Console.WriteLine(projectId + " RESULT " + results);
-            Lawmaker.Models.Bill bill = JsonSerializer.Deserialize<Lawmaker.Models.Bill>(results.TrimStart('[').TrimEnd(']'));
+            List<Lawmaker.Models.Bill> bill = JsonSerializer.Deserialize<List<Lawmaker.Models.Bill>>(results);
             return View(bill);
         }
         public async Task<IActionResult> ProjectAmendments(string projectId)

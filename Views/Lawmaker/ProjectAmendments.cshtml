@@ -20,7 +20,7 @@
 @foreach(Lawmaker.Models.Amendment amendment in Model.result)
 {
     <tr>
-        <td>@amendment.amendmentNum</td>
+        <td title="@(amendment.advGuid)">@amendment.amendmentNum</td>
         <td>@amendment.affectedDocument</td>
         <td>@amendment.stage</td>
         <td>@amendment.version</td>

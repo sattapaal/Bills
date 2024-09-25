@@ -1,17 +1,20 @@
-@model Lawmaker.Models.Bill
+@model List<Lawmaker.Models.Bill>
 @{
 
 }
 
-<p>@Model.title</p>
-<p>@Model.label</p>
-<p>@Model.stage</p>
-<p>@Model.publicationDate</p>
-<p>@Model.house</p>
-<p>@Model.docType</p>
-
-@foreach(Lawmaker.Models.Link link in Model._links)
+@foreach(var bill in Model)
 {
-    <p title="@link.manifestation" data="@link.method">@link.href</p>
-}
+    <p>@bill.title</p>
+    <p>@bill.label</p>
+    <p>@bill.stage</p>
+    <p>@bill.publicationDate</p>
+    <p>@bill.house</p>
+    <p>@bill.docType</p>
 
+    @foreach (Lawmaker.Models.Link link in bill._links)
+    {
+        <p title="@link.manifestation" data="@link.method">@link.href</p>
+    }
+
+}
