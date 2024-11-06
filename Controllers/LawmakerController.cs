@@ -25,28 +25,31 @@ namespace Bills.Controllers
         public async Task<IActionResult> SubmitLogin(string username, string password, string existingToken = "")
         {
             existingToken = GetCurrentSession();
-            LawmakerApiService lawmakerService = new LawmakerApiService();
+            LawmakerApiService lawmakerService = GetLawmakerService();
             var response = await lawmakerService.Login(username,password,existingToken);
             LoginResponse user = JsonSerializer.Deserialize<LoginResponse>(response);
             token = user.token;
             Response.Cookies.Append("LawmakerSession", user.token, GetCookieOptions());
+            
             return View(user);
         }
 
-        public async Task<IActionResult> SubmitLoginAndConnect(string username, string password, string existingToken = "")
+        public async Task<IActionResult> SubmitLoginAndConnect(string username, string password, string existingToken = "", string environment="")
         {
+
             existingToken = GetCurrentSession();
-            LawmakerApiService lawmakerService = new LawmakerApiService();
-            var response = await lawmakerService.Login(username,password,existingToken);
+            LawmakerApiService lawmakerService = GetLawmakerService();
+            var response = await lawmakerService.Login(username,password,existingToken,environment);
             LoginResponse user = JsonSerializer.Deserialize<LoginResponse>(response);
             token = user.token;
-            Response.Cookies.Append("LawmakerSession", user.token, GetCookieOptions());
+            Console.WriteLine(environment);
+            UpdateCookies(token,environment);
 
-            var docbaseResponse = await lawmakerService.ConnectDocSpace(user.token, username,password);
+            var docbaseResponse = await lawmakerService.ConnectDocSpace(user.token, username,password,environment);
             ViewBag.Docbase = docbaseResponse;
 
 
-            return View(user);
+            return RedirectToAction("GetBillListByType");
         }
 
         public CookieOptions GetCookieOptions()
@@ -65,7 +68,7 @@ namespace Bills.Controllers
             
             inToken = GetCurrentSession();
 
-            LawmakerApiService lawmakerService = new LawmakerApiService();
+            LawmakerApiService lawmakerService =  GetLawmakerService();
             var response = await lawmakerService.CheckRemainingSession(inToken);
             ViewBag.Remaining = response;
 
@@ -75,7 +78,7 @@ namespace Bills.Controllers
         public async Task<IActionResult> ConnectDocspace()
         {
             var inToken = GetCurrentSession();
-            LawmakerApiService lawmakerApiService = new LawmakerApiService();
+            LawmakerApiService lawmakerApiService =  GetLawmakerService();
             var response = await lawmakerApiService.ConnectDocSpace(inToken);
             ViewBag.Message = response;
             return View();
@@ -114,7 +117,7 @@ namespace Bills.Controllers
             Console.WriteLine(type);
             Console.WriteLine(filter);
 
-            LawmakerApiService lawmakerApiService = new LawmakerApiService();
+            LawmakerApiService lawmakerApiService =  GetLawmakerService();
             var results = await lawmakerApiService.GetBillList(GetCurrentSession(),type,filter);
             LawmakerBillList bills = JsonSerializer.Deserialize<LawmakerBillList>(results);
             return View(bills);
@@ -122,7 +125,7 @@ namespace Bills.Controllers
 
         public async Task<IActionResult> ProjectDetails(string projectId)
         {
-            LawmakerApiService lawmakerApiService = new LawmakerApiService();
+            LawmakerApiService lawmakerApiService =  GetLawmakerService();
             var results = await lawmakerApiService.GetBill(projectId, GetCurrentSession());
             //Console.WriteLine(projectId + " RESULT " + results);
             List<Lawmaker.Models.Bill> bill = JsonSerializer.Deserialize<List<Lawmaker.Models.Bill>>(results);
@@ -130,7 +133,7 @@ namespace Bills.Controllers
         }
         public async Task<IActionResult> ProjectAmendments(string projectId)
         {
-            LawmakerApiService lawmakerApiService = new LawmakerApiService();
+            LawmakerApiService lawmakerApiService =  GetLawmakerService();
             var results = await lawmakerApiService.GetBillAmendments(projectId, GetCurrentSession());
             //Console.WriteLine(projectId + " RESULT " + results);
             BillAmendments amendments = JsonSerializer.Deserialize<BillAmendments>(results);
@@ -139,7 +142,7 @@ namespace Bills.Controllers
 
         public async Task<ContentResult> GetDocument(string documentPath)
         {
-            LawmakerApiService lawmakerApiService = new LawmakerApiService();
+            LawmakerApiService lawmakerApiService =  GetLawmakerService();
             var results = await lawmakerApiService.GetDocument(documentPath, GetCurrentSession());
             Console.WriteLine(documentPath + " RESULT " + results);
             
@@ -153,7 +156,7 @@ namespace Bills.Controllers
 
         public async Task<IActionResult> GetDocumentAsModel(string documentPath)
         {
-            LawmakerApiService lawmakerApiService = new LawmakerApiService();
+            LawmakerApiService lawmakerApiService =  GetLawmakerService();
             var results = await lawmakerApiService.GetDocument(documentPath, GetCurrentSession());
             //Console.WriteLine(documentPath + " RESULT " + results);
             //Lawmaker.Models.XML.Amendment amendment = JsonSerializer.Deserialize<Lawmaker.Models.XML.Amendment>(results);
@@ -186,6 +189,19 @@ namespace Bills.Controllers
             //return new MemoryStream(Encoding.Unicode.GetBytes(value ?? ""));
             return new MemoryStream(Encoding.ASCII.GetBytes(value ?? ""));
             //return new MemoryStream(Encoding.UTF8.GetBytes(value ?? ""));
+        }
+
+        public LawmakerApiService GetLawmakerService()
+        {
+            return new LawmakerApiService(Request.Cookies);
+        }
+
+        public void UpdateCookies(string token, string environment)
+        {
+            Response.Cookies.Delete("LawmakerSession");
+            Response.Cookies.Delete("LawmakerEnvironment");
+            Response.Cookies.Append("LawmakerSession", token, GetCookieOptions());
+            Response.Cookies.Append("LawmakerEnvironment", environment, GetCookieOptions());
         }
 
     }

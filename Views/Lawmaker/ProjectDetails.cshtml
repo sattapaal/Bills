@@ -3,7 +3,7 @@
 
 }
 
-@foreach(var bill in Model)
+@foreach(Lawmaker.Models.Bill bill in Model)
 {
     <p>@bill.title</p>
     <p>@bill.label</p>
@@ -12,9 +12,11 @@
     <p>@bill.house</p>
     <p>@bill.docType</p>
 
-    @foreach (Lawmaker.Models.Link link in bill._links)
+    @foreach(Lawmaker.Models.Link link in bill._links)
     {
-        <p title="@link.manifestation" data="@link.method">@link.href</p>
+        <p><a href="/Lawmaker/GetDocument?documentpath=@(link.href)" title="@link.manifestation" data="@link.method">@link.manifestation</a></p>
     }
 
+    @*foreach(var something in bill.)*@
 }
+
