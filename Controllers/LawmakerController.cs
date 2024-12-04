@@ -140,6 +140,7 @@ namespace Bills.Controllers
             return View(amendments);
         }
 
+
         public async Task<ContentResult> GetDocument(string documentPath)
         {
             LawmakerApiService lawmakerApiService =  GetLawmakerService();
@@ -182,6 +183,8 @@ namespace Bills.Controllers
 
             return View(amendment);
         }
+
+
 
         public static MemoryStream GenerateStreamFromString(string value)
         {

@@ -13,9 +13,10 @@
     counter++;
     <tr>
         <td>@(counter)</td>
-        <td><a href="/Lawmaker/ProjectDetails?projectId=@(billProject.projectId)">@(billProject.projectId)</td>
+        <td>@(billProject.projectId)</td>
         <td title="@(billProject.docLabel) - @(billProject.docType) - @(billProject.chGuid)">@(billProject.title)</td>
-        <td title=""><a href="/Lawmaker/ProjectAmendments?projectId=@(billProject.projectId)">Get Amendments</a></td>
+        <td aria-details="terry mardi pudding"><a href="/Lawmaker/ProjectAmendments?projectId=@(billProject.projectId)">Get Amendments</a></td>
+        <td><a href="/Lawmaker/ProjectDetails?projectId=@(billProject.projectId)">Bills &amp; Marshalled Lists</a></td>
     </tr>
 }
 
