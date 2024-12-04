@@ -2,21 +2,36 @@
 @{
 
 }
+<h1>@Model?.FirstOrDefault().title</h1>
+
+<table border="1" style="solid black 1px; width:100%;">
+
+ <tr>
+    <th>title</th>
+    <th>label</th>
+    <th>stage</th>
+    <th>publicationDate</th>
+    <th>house</th>
+    <th>docType</th>
+    <th>Downloads</th>
+</tr>
 
 @foreach(Lawmaker.Models.Bill bill in Model)
 {
-    <p>@bill.title</p>
-    <p>@bill.label</p>
-    <p>@bill.stage</p>
-    <p>@bill.publicationDate</p>
-    <p>@bill.house</p>
-    <p>@bill.docType</p>
-
+    <tr border="1" style="solid black 1px;">
+    <td>@bill.title</td>
+    <td>@bill.label</td>
+    <td>@bill.stage</td>
+    <td>@bill.publicationDate</td>
+    <td>@bill.house</td>
+    <td>@bill.docType</td>
+    <td>
     @foreach(Lawmaker.Models.Link link in bill._links)
     {
         <p><a href="/Lawmaker/GetDocument?documentpath=@(link.href)" title="@link.manifestation" data="@link.method">@link.manifestation</a></p>
     }
-
-    @*foreach(var something in bill.)*@
+    </td>
+</tr>
 }
 
+</table>
